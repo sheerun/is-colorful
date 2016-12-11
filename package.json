@@ -1,0 +1,44 @@
+{
+  "name": "modern-node",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "bin": "lib/cli.js",
+  "dependencies": {
+    "babel-runtime": "^6.18.0",
+    "bluebird": "^3.4.6",
+    "color-convert": "^1.8.2",
+    "meow": "^3.7.0",
+    "sharp": "^0.16.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-jest": "^17.0.2",
+    "babel-preset-node-module": "^1.0.10",
+    "babel-register": "^6.18.0",
+    "babel-watch": "^2.0.3",
+    "cross-run": "^1.0.1",
+    "in-publish": "^2.0.0",
+    "jest": "^17.0.3",
+    "np": "^2.10.1",
+    "rimraf": "^2.5.4",
+    "snazzy": "^5.0.0",
+    "standard": "^8.6.0"
+  },
+  "scripts": {
+    "cli": "babel-node src/cli.js",
+    "build": "babel src --out-dir lib",
+    "test": "run NODE_ENV=test jest",
+    "lint": "run NODE_ENV=test standard src/**/*.js | snazzy",
+    "lint:fix": "run NODE_ENV=test standard src/**/*.js --fix | snazzy",
+    "prepublish": "in-publish && run NODE_ENV=production babel src --out-dir lib || not-in-publish",
+    "postpublish": "rimraf lib"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "jest": {
+    "rootDir": "./src"
+  }
+}
