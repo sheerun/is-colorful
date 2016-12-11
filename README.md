@@ -1,6 +1,8 @@
 # is-colorful
 
-Tells whether given image is colorful or not (or whether it is monochromatic).
+Tells whether given image is colorful (or whether it is not monochromatic).
+
+Here's how to currently works:
 
 1. Resizing image to achieve maximum dimension size, for faster processing
 2. Iterating through all pixels in resized image
