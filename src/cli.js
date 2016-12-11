@@ -9,6 +9,7 @@ const cli = meow(`
     $ is-colorful <filename>
 
   Options
+    --resize          Area side in pixels to fit image to if it's larger (default: 400)
     --min-lightness   Minimum lightness of pixel to consider it (default: 30)
     --max-lightness   Maximum lightness of pixel to consider it (default: 70)
     --min-saturation  Maximum saturation of pixel to consider it (default: 70)

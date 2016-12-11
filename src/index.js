@@ -6,7 +6,7 @@ const hsl = convert.rgb.hsl;
 
 promisifyAll(sharp.prototype, { multiArgs: true })
 
-export function colorfulSync (buffer, options = {}) {
+export function isColorfulSync (buffer, options = {}) {
   const {
     minLightness = 30,
     maxLightness = 70,
@@ -28,8 +28,8 @@ export function colorfulSync (buffer, options = {}) {
   for (let i = 0; i < buffer.length; i += channels) {
     const [h, s, l] = hsl(buffer.slice(i, i + 3))
 
-    if (l > minLightness && l < maxLightness) {
-      if (s > minSaturation) {
+    if (l > minLightness && l <= maxLightness) {
+      if (s >= minSaturation) {
         if (minHue === undefined || h < minHue) {
           minHue = h
         }
@@ -48,10 +48,12 @@ export function colorfulSync (buffer, options = {}) {
   return maxHue - minHue > threshold
 }
 
-async function colorful (file, options = {}) {
-  const [buffer, { size, channels }] = await sharp(file).raw().toBufferAsync()
+export async function isColorful (file, options = {}) {
+  const resize = options.resize || 400
+  const [buffer, { size, channels }] = await sharp(file)
+    .resize(resize, resize).withoutEnlargement().max().raw().toBufferAsync()
 
-  return colorfulSync(buffer, { ...options, channels, size })
+  return isColorfulSync(buffer, { ...options, channels, size })
 }
 
-export default colorful
+export default isColorful

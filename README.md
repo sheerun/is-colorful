@@ -1,20 +1,51 @@
-# ![Modern Node Boilerplate](http://i.imgur.com/PqQAqwO.png)
+# is-colorful
 
-[![Unix CI](https://img.shields.io/travis/sheerun/modern-node/master.svg)](https://travis-ci.org/sheerun/modern-node)
-[![Windows CI](https://img.shields.io/appveyor/ci/sheerun/modern-node/master.svg)](https://ci.appveyor.com/project/sheerun/modern-node)
-[![Modern Node](https://img.shields.io/badge/modern-node-9BB48F.svg)](https://github.com/sheerun/modern-node)
+Tells whether given image is colorful or not (or whether it is monochromatic).
 
-> Boilerplate for modern node modules
+1. Resizing image to achieve maximum dimension size, for faster processing
+2. Iterating through all pixels in resized image
+3. Converting them to [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) representation
+4. Selecting pixels with lightness in (minLightness..maxLightness) range and saturation > minSaturation
+5. Telling whether difference between minimum and maximum hue of selected pixels is greather than threshold
 
-- Precompiling with [Babel](https://babeljs.io/) and [babel-preset-node-module](https://www.npmjs.com/package/babel-preset-node-module)
-- Linting with [standard](https://github.com/feross/standard)
-- Testing with [jest](https://facebook.github.io/jest/)
-- CLI interface with [meow](https://github.com/sindresorhus/meow)
-- Publishing with [np](https://github.com/sindresorhus/np)
+## CLI Usage
 
-## Development
+```
+Usage
+  $ is-colorful <filename>
 
-Modern Node module is supposed to be developed on Node >= 4, but it can be deployed on any Node version, thanks to Babel precompilation.
+Options
+  --resize          Area side in pixels to fit image to if it's larger (default: 400)
+  --min-lightness   Minimum lightness of pixel to consider it (default: 30)
+  --max-lightness   Maximum lightness of pixel to consider it (default: 70)
+  --min-saturation  Maximum saturation of pixel to consider it (default: 70)
+  --threshold       Minimum hue difference in considered pixels (deafult: 90)
+
+Return code:
+
+  - 0 if image is colorul
+  - 1 on command failure
+  - 2 if image is not colorful
+
+Examples
+  $ is-colorful pale-face.jpg --min-saturation 40
+```
+
+## Programmatic usage
+
+`isColorful(path, options)`
+
+Options are the same like in CLI, but camel cased.
+
+```es6
+import isColorful from 'is-colorful'
+
+isColorful('pale-face.jpg', { minSaturation: 40 }).then((colorful) => {
+  if (colorful) {
+    console.log('Image is colorful!')
+  }
+})
+```
 
 ## License
 
